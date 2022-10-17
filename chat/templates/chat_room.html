@@ -1,0 +1,63 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="">
+	<h3 class="text-center mt-2 mb-5">{{ room_name }}</h3>
+    
+    <div class="container">
+        <input type="hidden" id="room-name" value={{room_name}}>
+        <div class="row justify-content-center mb-5">
+            <div class="col-9 col-md-7 col-lg-6">
+                <textarea class="form-control" id="chat-log" rows="6"></textarea>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-8 col-md-5 col-lg-5">
+                <div class="input-group">
+                    <textarea class="form-control" id="chat-text" rows="3"></textarea>
+					<button class="btn btn-secondary ms-2" type="button" id="submit-btn">Submit</button>
+				</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var roomName = document.querySelector('#room-name').value
+        
+        var soc = 'ws://' + window.location.host +
+            '/ws/chat/' + roomName + '/';
+        
+        console.log(soc);
+        var chatSocket = new WebSocket(soc)
+
+        chatSocket.onmessage = function (e){
+            var data = JSON.parse(e.data)
+            var msg = data['message']
+            document.querySelector('#chat-log').value  += (msg + '\n')
+        }
+
+        chatSocket.onclose = function (e){
+            console.error('Chat socket closed unexpectedly')
+        }
+
+        document.querySelector('#submit-btn').onclick = function (e) {
+			var msgInput = document.querySelector('#chat-text')
+            var msg = msgInput.value
+
+            chatSocket.send(
+                JSON.stringify({
+                    'message': msg
+                })
+            )
+
+            msgInput.value = ''
+		}
+
+    </script>
+
+
+</div>
+
+{% endblock content %}

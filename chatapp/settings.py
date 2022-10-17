@@ -63,6 +63,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chatapp.wsgi.application'
+# asgi for channels
+ASGI_APPLICATION = 'chatapp.routing.application'
 
 # Database
 DATABASES = {
@@ -118,6 +120,3 @@ AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
 	'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-# asgi for channels
-ASGI_APPLICATION = 'chatapp.routing.application'
