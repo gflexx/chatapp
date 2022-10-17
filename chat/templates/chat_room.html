@@ -9,14 +9,18 @@
         <input type="hidden" id="room-name" value={{room_name}}>
         <div class="row justify-content-center mb-5">
             <div class="col-9 col-md-7 col-lg-6">
-                <textarea class="form-control" id="chat-log" rows="6"></textarea>
+                <div id="chat-log">
+
+                </div>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-8 col-md-5 col-lg-5">
                 <div class="input-group">
                     <textarea class="form-control" id="chat-text" rows="3"></textarea>
-					<button class="btn btn-secondary ms-2" type="button" id="submit-btn">Submit</button>
+					<div>
+                        <button class="btn btn-secondary ms-2" type="button" id="submit-btn">Submit</button>
+                    </div>
 				</div>
             </div>
         </div>
@@ -29,13 +33,17 @@
         var soc = 'ws://' + window.location.host +
             '/ws/chat/' + roomName + '/';
         
-        console.log(soc);
         var chatSocket = new WebSocket(soc)
 
         chatSocket.onmessage = function (e){
             var data = JSON.parse(e.data)
             var msg = data['message']
-            document.querySelector('#chat-log').value  += (msg + '\n')
+            var tag = document.createElement("p");
+            var text = document.createTextNode(msg)
+            tag.classList.add('mb-2', 'text-center', 'alert', 'alert-primary', 'py-1')
+            tag.appendChild(text)
+            var element = document.getElementById("chat-log")
+            element.appendChild(tag)
         }
 
         chatSocket.onclose = function (e){
