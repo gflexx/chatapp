@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="">
-	<h3 class="text-center mt-2 mb-5">{{ room_name }}</h3>
+	<h3 class="text-center mt-2 mb-3">{{ room_name }}</h3>
     
     <div class="container">
         <input type="hidden" id="room-name" value={{room_name}}>
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-center mb-3">
             <div class="col-9 col-md-7 col-lg-6">
                 <div id="chat-log">
 
@@ -17,7 +17,7 @@
         <div class="row justify-content-center">
             <div class="col-8 col-md-5 col-lg-5">
                 <div class="input-group">
-                    <textarea class="form-control" id="chat-text" rows="3"></textarea>
+                    <textarea class="form-control" id="chat-text" rows="2"></textarea>
 					<div>
                         <button class="btn btn-secondary ms-2" type="button" id="submit-btn">Submit</button>
                     </div>
@@ -56,7 +56,8 @@
 
             chatSocket.send(
                 JSON.stringify({
-                    'message': msg
+                    'message': msg,
+                    'command': 'new_message'
                 })
             )
 
